@@ -14,8 +14,7 @@
         android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shevchenko"
-        tools:targetApi="m"
-        android:fullBackupContent="">
+        tools:targetApi="m">
         <activity
             android:name=".MainActivity"
             android:exported="true">

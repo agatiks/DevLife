@@ -3,8 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/agata/Documents/projects/shevchenko/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/Users/agata/Documents/projects/shevchenko/app/src/main/res/drawable-v24/unnamed_foreground.xml" value="0.1" />
+        <entry key="..\:/Users/agata/Documents/projects/shevchenko/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Users/agata/Documents/projects/shevchenko/app/src/main/res/drawable/unknown.xml" value="0.1" />
         <entry key="..\:/Users/agata/Documents/projects/shevchenko/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/agata/Documents/projects/shevchenko/app/src/main/res/layout/post_fragment.xml" value="0.16" />
+        <entry key="..\:/Users/agata/Documents/projects/shevchenko/app/src/main/res/mipmap-anydpi-v26/unnamed.xml" value="0.1" />
       </map>
     </option>
   </component>

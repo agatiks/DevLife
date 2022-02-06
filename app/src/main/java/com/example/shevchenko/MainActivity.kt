@@ -59,10 +59,20 @@ class MainActivity : AppCompatActivity() {
     private suspend  fun new() {
         showProcessing()
         assert(currPost == postList.size)
-        val post = PostCached(currPost, service.getPost())
-        withContext(Dispatchers.Default) { addToPostList(post) }
-        database.insertAll(mutableListOf(post))
-        Log.i("url", post.url)
+        val response = service.getPost()
+        if(response.isSuccessful && response.body() != null) {
+            val post = PostCached(currPost, response.body()!!)
+            withContext(Dispatchers.Default) { addToPostList(post) }
+            database.insertAll(mutableListOf(post))
+            Log.i("url", post.url)
+        } else {
+            currPost--
+            binding.description.text = "Произошла ошибка загрузки"
+            Glide.with(GlobalApp.instance)
+                .load(R.drawable.network_error)
+                .override(binding.gif.width)
+                .into(binding.gif)
+        }
         show(currPost)
     }
 
@@ -79,10 +89,21 @@ class MainActivity : AppCompatActivity() {
             // так как кажется, что ходить каждый раз в базу будет тяжелее, чем брать данные из массива
             if (postList.size == 0) {
                 //если первое взаимодействие с приложением, то добавляем пост в бд и в массив
-                val post = PostCached(0, service.getPost())
-                withContext(Dispatchers.Default) { addToPostList(post) }
-                database.insertAll(mutableListOf(post))
-                Log.i("url", post.url)
+                val response = service.getPost()
+                if(response.isSuccessful && response.body()!=null) {
+                    val post = PostCached(0, response.body()!!)
+                    withContext(Dispatchers.Default) { addToPostList(post) }
+                    database.insertAll(mutableListOf(post))
+                    Log.i("url", post.url)
+                } else {
+                    binding.description.text = "Произошла ошибка загрузки"
+                    Glide.with(GlobalApp.instance)
+                        .load(R.drawable.network_error)
+                        .override(binding.gif.width)
+                        .into(binding.gif)
+                    return@async
+                }
+
             }
         }
         fetchDBJob.await()
@@ -93,10 +114,15 @@ class MainActivity : AppCompatActivity() {
     private fun show(currPost: Int) {
         showProcessing()
         Log.i("curr", currPost.toString())
+        if(currPost == 0) {
+            binding.previous.imageAlpha = 0x20
+        } else {
+            binding.previous.imageAlpha = 0xFF
+        }
         Glide.with(GlobalApp.instance)
             .load(postList[currPost].url)
             .override(binding.gif.width)
-            //.fitCenter()
+            .placeholder(R.drawable.progress)
             .into(binding.gif)
         binding.description.text = postList[currPost].descr
         binding.processing.visibility = View.GONE
